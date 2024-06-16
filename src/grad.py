@@ -130,6 +130,22 @@ class Value:
         out._backward = _backward
         
         return out
+    
+    def relu(self):
+        """
+        Calculates Rectified Linear Unit of the Value object.
+        Returns:
+            A new Value object representing the ReLU
+        """
+        x = self.data
+        t = x if x > 0 else 0
+        out = Value(t, (self, ), 'relu')
+        
+        def _backward():
+            self.grad += (out.data > 0) * out.grad
+        out._backward = _backward
+        
+        return out
 
     def backward(self):
         """
@@ -154,13 +170,13 @@ class Value:
         """
         Supports addition where the Value object is on the right side (e.g., 3 + x).
         """
-        return self.data + other
+        return self + other
         
     def __rmul__(self, other):
         """
         Supports multiplication where the Value object is on the right side (e.g., 2 * x).
         """
-        return self.data * other
+        return self * other
     
     def __rsub__(self, other):
         """
