@@ -115,6 +115,21 @@ class Value:
         
         return out
     
+    def log(self):
+        """
+        Calculates the log of the Value object
+        Returns:
+            A new Value object representing the log
+        """
+        x = self.data
+        out = Value(math.log(x), (self, ), 'log')
+        
+        def _backward():
+            self.grad += out.grad * (1 / x)
+        self._backward = _backward
+        
+        return out
+    
     def tanh(self):
         """
         Calculates the hyperbolic tangent of the Value object.

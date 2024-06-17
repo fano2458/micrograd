@@ -44,7 +44,7 @@ class Neuron(Module):
             The output of the neuron after applying the tanh activation function (Value object).
         """
         act = sum((wi * xi for wi, xi in zip(self.w, x)), self.b)  # Weighted sum of inputs and bias
-        out = act.tanh()  # Apply tanh activation
+        out = act.relu()  # Apply tanh activation
         return out
 
     def parameters(self):
